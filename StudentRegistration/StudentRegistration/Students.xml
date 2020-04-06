@@ -44,15 +44,15 @@
 </student>
 
 <student>
-<FirstName>Carls</FirstName>
-<LastName>Junior</LastName>
+<FirstName>Carl</FirstName>
+<LastName>Jepp</LastName>
 <DegreeStatus>full-time</DegreeStatus>
 <Major>Nursing</Major>
 </student>
 
 <student>
 <FirstName>Nathan</FirstName>
-<LastName>Freshman</LastName>
+<LastName>Garcia</LastName>
 <DegreeStatus>full-time</DegreeStatus>
 <Major>Business</Major>
 </student>

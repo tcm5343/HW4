@@ -269,7 +269,8 @@ public class DB_Manager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JOptionPane.showMessageDialog(null, "Database succesfully backed up", "Success", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Database succesfully backed up. Remember, if you want to use the " + 
+                "default XML file you must delete " + backupFile , "Success", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public void readXMLFile() {

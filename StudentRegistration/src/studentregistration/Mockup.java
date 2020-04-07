@@ -5,6 +5,7 @@
  */
 package studentregistration;
 
+import java.awt.BorderLayout;
 import javax.swing.*;
 
 /**
@@ -37,11 +38,15 @@ public class Mockup extends javax.swing.JFrame {
         studentCharts = new StudentCharts(this);
         
         // displays the frame
-        frame.add(studentMenu);
-        frame.setSize(770, 270);   //change size to adjust all panels
+        frame.setLayout(new BorderLayout());
+        frame.add(studentMenu, BorderLayout.NORTH);
+        frame.add(studentCharts, BorderLayout.SOUTH);
+        frame.setSize(975, 600);   //change size to adjust all panels
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        
+        studentMenu.updateUserInterface();
     }
 
     /**

@@ -10,6 +10,7 @@ package studentregistration;
  * @author miller
  */
 public class StudentRecord {
+    
     private String fName;
     private String lName;
     private String degreeStatus;

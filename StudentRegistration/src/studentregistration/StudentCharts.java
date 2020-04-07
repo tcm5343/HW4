@@ -5,7 +5,7 @@
  */
 package studentregistration;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Locale;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.CategoryPlot;
@@ -19,13 +19,15 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class StudentCharts extends javax.swing.JPanel {
 
-    private final StudentMenu studentMenu;
+    private StudentMenu studentMenu;
+    private Mockup myGUI;
     
-    protected ChartFrame barChartFrame;
-    protected ChartFrame pieChartFrame;
+    protected ChartPanel barChartPanel;
+    protected ChartPanel pieChartPanel;
 
     // constructor
     public StudentCharts(Mockup mockup) {
+        myGUI = mockup;
         studentMenu = mockup.studentMenu;
         initComponents();
     }
@@ -39,15 +41,50 @@ public class StudentCharts extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 447, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 322, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 411, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -55,8 +92,6 @@ public class StudentCharts extends javax.swing.JPanel {
      * displays the total number of students in each degree status category
      */
     protected void createBarChart() {
-        System.out.println("createBarChart() called");
-        
         // fill the chart with data
         DefaultCategoryDataset barchartDataset = new DefaultCategoryDataset();
         barchartDataset.setValue(countDegreeStatusOccurences("full-time"), "", "full-time");
@@ -70,15 +105,17 @@ public class StudentCharts extends javax.swing.JPanel {
 
         CategoryPlot barChartCatPlot = barChart.getCategoryPlot();
         barChartCatPlot.setRangeGridlinePaint(Color.BLACK);
-
-        barChartFrame = new ChartFrame("Degree Status", barChart, true);
-        barChartFrame.setVisible(true);
-        barChartFrame.setSize(750, 500);
+      
+        barChartPanel = new ChartPanel(barChart);
+        barChartPanel.setPreferredSize(new Dimension(450,300));
+        
+        this.jPanel1 = myGUI.studentCharts.jPanel1;
+        jPanel1.setLayout(new BorderLayout());
+        jPanel1.add(barChartPanel, BorderLayout.WEST);
+        jPanel1.validate();
     }
 
     protected void createPieChart() {
-        System.out.println("createPieChart() called");
-        
         // fill the chart with data
         DefaultPieDataset pieChartDataset = new DefaultPieDataset();
         pieChartDataset.setValue("IST", countMajorOccurences("IST"));
@@ -88,13 +125,16 @@ public class StudentCharts extends javax.swing.JPanel {
         
         JFreeChart pieChart = ChartFactory.createPieChart("Student Majors", pieChartDataset, true, true, Locale.US);
         
-        // add the chart to a frame to be displayed to the user
-        pieChartFrame = new ChartFrame("Degree Status", pieChart, true);
-        pieChartFrame.setVisible(true);
-        pieChartFrame.setSize(750, 500);
+        pieChartPanel = new ChartPanel(pieChart);
+        pieChartPanel.setPreferredSize(new Dimension(450,100));
+        
+        this.jPanel2 = myGUI.studentCharts.jPanel2;
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(pieChartPanel, BorderLayout.WEST);
+        jPanel2.validate();
     }
 
-    private int countMajorOccurences(String major) {
+    private int countMajorOccurences(final String major) {
         int result = 0;
         // counts the occurences of the degree status
         for (StudentRecord studentRecord : studentMenu.studentRecordData) {
@@ -105,7 +145,7 @@ public class StudentCharts extends javax.swing.JPanel {
         return result;
     }
 
-    private int countDegreeStatusOccurences(String degreeStatus) {
+    private int countDegreeStatusOccurences(final String degreeStatus) {
         int result = 0;
         // counts the occurences of the major
         for (StudentRecord studentRecord : studentMenu.studentRecordData) {
@@ -117,5 +157,7 @@ public class StudentCharts extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

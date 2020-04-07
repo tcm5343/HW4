@@ -14,10 +14,10 @@ import javax.swing.*;
  */
 public class StudentMenu extends javax.swing.JPanel {
 
-    private final Mockup myGUI;
+    private Mockup myGUI;
     private StudentCharts studentCharts;
-    private final DefaultListModel jListModel = new DefaultListModel();
-    
+    private DefaultListModel jListModel = new DefaultListModel();
+
     protected DB_Manager db = new DB_Manager();
     protected ArrayList<StudentRecord> studentRecordData;
 
@@ -26,7 +26,6 @@ public class StudentMenu extends javax.swing.JPanel {
         myGUI = mockup;
         studentRecordData = new ArrayList<>(Arrays.asList(db.queryRecords()));
         initComponents();
-        updateList();
     }
 
     /**
@@ -47,12 +46,10 @@ public class StudentMenu extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lastNameTextField = new javax.swing.JTextField();
-        degreeStatusTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        majorTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        displayBarChartBtn = new javax.swing.JButton();
-        displayPieChartBtn = new javax.swing.JButton();
+        degreeStatusComboBox = new javax.swing.JComboBox<>();
+        majorComboBox = new javax.swing.JComboBox<>();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Failed to input from database" };
@@ -91,19 +88,9 @@ public class StudentMenu extends javax.swing.JPanel {
 
         jLabel4.setText("Major:");
 
-        displayBarChartBtn.setText("Display Bar Chart");
-        displayBarChartBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayBarChartBtnActionPerformed(evt);
-            }
-        });
+        degreeStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "full-time", "part-time", "non-degree", "provisional" }));
 
-        displayPieChartBtn.setText("Display Pie Chart");
-        displayPieChartBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayPieChartBtnActionPerformed(evt);
-            }
-        });
+        majorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Business", "IST", "Nursing", "HDFS" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -111,83 +98,67 @@ public class StudentMenu extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(addBtn))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(degreeStatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(displayBarChartBtn)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel4)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(majorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(backupBtn)
-                                    .addComponent(deleteBtn))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(displayPieChartBtn)
-                        .addGap(55, 55, 55))))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(majorComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(degreeStatusComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(backupBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+                .addGap(82, 82, 82))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
                             .addComponent(addBtn))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(deleteBtn))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(degreeStatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addGap(7, 7, 7)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(majorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(backupBtn))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(displayPieChartBtn)
-                            .addComponent(displayBarChartBtn))
-                        .addGap(31, 31, 31))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+                            .addComponent(lastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(deleteBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(degreeStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(backupBtn))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(majorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void updateList() {
+    protected void updateUserInterface() {
+        // I did not want to query the database again but it seems to be one
+        // of the only ways which works and also the easiest with how it is 
+        // already set up... :/
+        studentRecordData = new ArrayList<>(Arrays.asList(db.queryRecords()));
+        // updates the jList
         jListModel.clear();
         // updates the model
         for (StudentRecord studentRecord : studentRecordData) {
@@ -195,16 +166,21 @@ public class StudentMenu extends javax.swing.JPanel {
         }
         // sets the jList to use the model
         jList1.setModel(jListModel);
+        
+        // updates the charts
+        studentCharts = myGUI.studentCharts;
+        studentCharts.createPieChart();
+        studentCharts.createBarChart();
+        
+        resetTextFields();
     }
 
     private void resetTextFields() {
         firstNameTextField.setText("");
         lastNameTextField.setText("");
-        degreeStatusTextField.setText("");
-        majorTextField.setText("");
     }
 
-    private boolean doesRecordExist(StudentRecord studentRecord) {
+    private boolean doesRecordExist(final StudentRecord studentRecord) {
         boolean result = false;
         if (jListModel.contains(studentRecord.toString())) {
             result = true;
@@ -217,10 +193,8 @@ public class StudentMenu extends javax.swing.JPanel {
     private boolean validateInput() {
         boolean result = false;
         if (firstNameTextField.getText().equals("")
-                || lastNameTextField.getText().equals("")
-                || degreeStatusTextField.getText().equals("")
-                || majorTextField.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Enter input for all fields", "Error", JOptionPane.INFORMATION_MESSAGE);
+                || lastNameTextField.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Enter both a first and last name", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
             result = true;
         }
@@ -229,32 +203,32 @@ public class StudentMenu extends javax.swing.JPanel {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         if (validateInput()) {
-            // creates a new student record object
+            // creates a student record object
             StudentRecord studentRecord = new StudentRecord(firstNameTextField.getText(), lastNameTextField.getText(),
-                    degreeStatusTextField.getText(), majorTextField.getText());
+                    degreeStatusComboBox.getSelectedItem().toString(), majorComboBox.getSelectedItem().toString());
             // inserts StudentRecord into the database
             db.insertRecord(studentRecord);
             // add the new record to the jList directly, much faster than
             // running a new query to populate the jList
-            jListModel.addElement(studentRecord.toString());
+//            jListModel.addElement(studentRecord.toString());
             // adds element to the ArrayList of studentRecords and update chart
-            studentRecordData.add(studentRecord);
-            resetTextFields();
+//            studentRecordData.add(studentRecord);
+            updateUserInterface();
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        // creates a new student record object
+        // creates a student record object
         StudentRecord studentRecord = new StudentRecord(firstNameTextField.getText(), lastNameTextField.getText(),
-                degreeStatusTextField.getText(), majorTextField.getText());
+                degreeStatusComboBox.getSelectedItem().toString(), majorComboBox.getSelectedItem().toString());
         if (validateInput() && doesRecordExist(studentRecord)) {
-            // deletes StudentRecord into the database
+            // deletes StudentRecord in the database
             db.deleteRecord(studentRecord);
             // removes the new record from the jList
-            jListModel.removeElement(studentRecord.toString());
+//            jListModel.removeElement(studentRecord.toString());
             // deletes element from the ArrayList of studentRecords and update chart
-            studentRecordData.remove(studentRecord);
-            resetTextFields();
+//            studentRecordData.remove(studentRecord);
+            updateUserInterface();
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
@@ -262,36 +236,12 @@ public class StudentMenu extends javax.swing.JPanel {
         db.writeXMLFile();
     }//GEN-LAST:event_backupBtnActionPerformed
 
-    private void displayBarChartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayBarChartBtnActionPerformed
-        studentCharts = myGUI.studentCharts;
-        // if the chart is not open
-        if (studentCharts.barChartFrame == null || !studentCharts.barChartFrame.isVisible()) {
-            studentCharts.createBarChart();
-        } else { // if the chart is already open
-            studentCharts.barChartFrame.dispose();
-            studentCharts.createBarChart();
-        }
-    }//GEN-LAST:event_displayBarChartBtnActionPerformed
-
-    private void displayPieChartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayPieChartBtnActionPerformed
-        studentCharts = myGUI.studentCharts;
-        // if the chart is not open
-        if (studentCharts.pieChartFrame == null || !studentCharts.pieChartFrame.isVisible()) {
-            studentCharts.createPieChart();  
-        } else { // if the chart is already open
-            studentCharts.pieChartFrame.dispose();
-            studentCharts.createPieChart();
-        }
-    }//GEN-LAST:event_displayPieChartBtnActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
     private javax.swing.JButton backupBtn;
-    private javax.swing.JTextField degreeStatusTextField;
+    private javax.swing.JComboBox<String> degreeStatusComboBox;
     private javax.swing.JButton deleteBtn;
-    private javax.swing.JButton displayBarChartBtn;
-    private javax.swing.JButton displayPieChartBtn;
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -300,6 +250,6 @@ public class StudentMenu extends javax.swing.JPanel {
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField lastNameTextField;
-    private javax.swing.JTextField majorTextField;
+    private javax.swing.JComboBox<String> majorComboBox;
     // End of variables declaration//GEN-END:variables
 }

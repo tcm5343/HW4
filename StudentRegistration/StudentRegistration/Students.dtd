@@ -1,6 +1,0 @@
-<!ELEMENT studentrecords (student*)>
-<!ELEMENT student (FirstName, LastName, DegreeStatus, Major)>
-<!ELEMENT FirstName (#PCDATA)>
-<!ELEMENT LastName (#PCDATA)>
-<!ELEMENT DegreeStatus (#PCDATA)>
-<!ELEMENT Major (#PCDATA)>

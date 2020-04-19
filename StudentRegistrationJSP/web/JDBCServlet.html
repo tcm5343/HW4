@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!-- JDBC Servlet Example --> 
+<html xmlns = "http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Student Registration</title>
+    </head>
+
+    <body>
+        <form action = "/JDBCServlet" method = "get">
+            <h1>Database dashboard: </h1>
+            <p>To modify the database, fill out the form below.
+                Then, click on the Submit button. </p>
+            <table cellspacing="5" border="0">
+                <tr>
+                    <td align="right">First name:</td>
+                    <td><input type="text" name="firstName"></td>
+                </tr>
+                <tr>
+                    <td align="right">Last name:</td>
+                    <td><input type="text" name="lastName"></td>
+                </tr>
+                <tr>
+                    <td align="right">Degree Status:</td>
+                    <td><input type="text" name="degreeStatus"></td>
+                </tr>
+                <tr>
+                    <td align="right">Major:</td>
+                    <td><input type="text" name="major"></td>
+                </tr>
+            </table>
+            <p><label>Click the button to add a student record: <input type = "submit" value = "Add Record" />
+                </label></p>
+        </form>
+
+
+    </body>
+</html>

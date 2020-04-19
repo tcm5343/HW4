@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class JDBCServlet extends HttpServlet {
 
+    private String databasePath = "jdbc:ucanaccess://E:/dev/Repos/HW4/StudentRegistrationApp/database/StudentRegistration.accdb"; // desktop
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,8 +34,8 @@ public class JDBCServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
-
         PrintWriter out = response.getWriter();
 
         try {
@@ -42,8 +44,7 @@ public class JDBCServlet extends HttpServlet {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 
             // connect to database
-            Connection con
-                    = DriverManager.getConnection("jdbc:ucanaccess://E:/dev/Repos/HW4/StudentRegistrationApp/database/StudentRegistration.accdb");
+            Connection con = DriverManager.getConnection(databasePath);
 
             // send XHTML page to client
             // start XHTML document
@@ -58,63 +59,86 @@ public class JDBCServlet extends HttpServlet {
 
             // head section of document
             out.println("<head>");
-            out.println("<title>A JDBC Servlet Example</title>");
+            out.println("<title>Student Registration Servlet</title>");
             out.println("</head>");
 
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String degreeStatus = request.getParameter("degreeStatus");
             String major = request.getParameter("major");
+            
+            PreparedStatement preparedStatement = null;
+            String sql = null;
+                
+            if (request.getParameter("action").equals("add")) {
+                // adds record to database
+                sql = "insert into Students values(?, ?, ?, ?)";
+                preparedStatement = con.prepareStatement(sql);
+                preparedStatement.setString(1, firstName);
+                preparedStatement.setString(2, lastName);
+                preparedStatement.setString(3, degreeStatus);
+                preparedStatement.setString(4, major);
+                preparedStatement.execute();
+                preparedStatement.close();
+                con.close();
+            } else if (request.getParameter("action").equals("delete")) {
+                // deletes record from database
+                sql = "delete from Students where FirstName = ? and " 
+                        + "LastName = ? and DegreeStatus = ? and "
+                        + "Major = ?";
+                preparedStatement = con.prepareStatement(sql);
+                preparedStatement.setString(1, firstName);
+                preparedStatement.setString(2, lastName);
+                preparedStatement.setString(3, degreeStatus);
+                preparedStatement.setString(4, major);
+                preparedStatement.execute();
+                preparedStatement.close();
+                con.close();
+            }
 
-            // body section of document
-            out.println("<body>");
-            out.println("<h1>Student Record Added</h1>");
-            out.println("</body>");
+            // prints responce on webpage
+            if (request.getParameter("action").equals("add")) {
+                out.println("<body>");
+                out.println("<h1>Student Record Added</h1>");
+                out.println("</body>");
+            } else if (request.getParameter("action").equals("delete")) {
+                out.println("<body>");
+                out.println("<h1>Student Record Deleted</h1>");
+                out.println("</body>");
+            }
+            else {
+                out.println("<body>");
+                out.println("<h1>something went very wrong :/</h1>");
+                out.println("</body>");
+            }
+
             out.println("<table>");
             out.println("<tr>");
             out.println("<td>First Name:</td>");
             out.println("<td>" + firstName + "</td>");
             out.println("</tr>");
-            
+
             out.println("<tr>");
             out.println("<td>Last Name:</td>");
             out.println("<td>" + lastName + "</td>");
             out.println("</tr>");
-            
+
             out.println("<tr>");
             out.println("<td>Degree Status:</td>");
             out.println("<td>" + degreeStatus + "</td>");
             out.println("</tr>");
-            
+
             out.println("<tr>");
             out.println("<td>Major:</td>");
             out.println("<td>" + major + "</td>");
             out.println("</tr>");
             out.println("</table>");
 
-            // adds record to database
-            PreparedStatement preparedStatement = null;
-            String sql = null;
-
-            // prepared statement creation and assignment
-            sql = "insert into Students values(?, ?, ?, ?)";
-            preparedStatement = con.prepareStatement(sql);
-
-            System.out.println("asdfasdfasdfasdfasdfasdf " + request.getParameter("firstName"));
-
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, degreeStatus);
-            preparedStatement.setString(4, major);
-
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            con.close();
-
         } // end try
         // detect problems interacting with the database
         catch (SQLException sqlException) {
             out.println("Database Error - SQL Exception");
+            out.println(sqlException);
 
         } // detect problems loading database driver
         catch (ClassNotFoundException classNotFound) {
